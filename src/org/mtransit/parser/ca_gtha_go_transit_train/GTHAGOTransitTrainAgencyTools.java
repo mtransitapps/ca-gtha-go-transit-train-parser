@@ -10,6 +10,7 @@ import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
 import org.mtransit.parser.gtfs.data.GCalendarDate;
 import org.mtransit.parser.gtfs.data.GRoute;
+import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
@@ -73,7 +74,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
-
 
 	@Override
 	public long getRouteId(GRoute gRoute) {
@@ -153,57 +153,57 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String WEST = "West";
 
 	@Override
-	public void setTripHeadsign(MRoute route, MTrip mTrip, GTrip gTrip) {
-		if (route.id == 1l) { // Lakeshore West
+	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
+		if (mRoute.id == 1l) { // Lakeshore West
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(UNION, 0);
 			} else {
 				mTrip.setHeadsignString(WEST, 1);
 			}
 			return;
-		} else if (route.id == 2l) { // Milton
+		} else if (mRoute.id == 2l) { // Milton
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(UNION, 0);
 			} else {
 				mTrip.setHeadsignString(MILTON, 1);
 			}
 			return;
-		} else if (route.id == 3l) { // Kitchener
+		} else if (mRoute.id == 3l) { // Kitchener
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(UNION, 0);
 			} else {
 				mTrip.setHeadsignString(KITCHENER, 1);
 			}
 			return;
-		} else if (route.id == 5l) { // Barrie
+		} else if (mRoute.id == 5l) { // Barrie
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(BARRIE, 0);
 			} else {
 				mTrip.setHeadsignString(UNION, 1);
 			}
 			return;
-		} else if (route.id == 6l) { // Richmond Hill
+		} else if (mRoute.id == 6l) { // Richmond Hill
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(RICHMOND_HILL, 0);
 			} else {
 				mTrip.setHeadsignString(UNION, 1);
 			}
 			return;
-		} else if (route.id == 7l) { // Stouffville
+		} else if (mRoute.id == 7l) { // Stouffville
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(STOUFFVILLE, 0);
 			} else {
 				mTrip.setHeadsignString(UNION, 1);
 			}
 			return;
-		} else if (route.id == 8l) { // Niagara Falls
+		} else if (mRoute.id == 8l) { // Niagara Falls
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(UNION, 0);
 			} else {
 				mTrip.setHeadsignString(NIAGARA_FALLS, 1);
 			}
 			return;
-		} else if (route.id == 9l) { // Lakeshore East
+		} else if (mRoute.id == 9l) { // Lakeshore East
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(UNION, 0);
 			} else {
