@@ -1,8 +1,6 @@
 package org.mtransit.parser.ca_gtha_go_transit_train;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
