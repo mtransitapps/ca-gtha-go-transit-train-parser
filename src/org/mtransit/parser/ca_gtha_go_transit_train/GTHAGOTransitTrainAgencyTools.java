@@ -1,6 +1,7 @@
 package org.mtransit.parser.ca_gtha_go_transit_train;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MSpec;
 import org.mtransit.parser.mt.data.MTrip;
+import org.mtransit.parser.mt.data.MTripStop;
 
 // http://www.gotransit.com/publicroot/en/schedules/DeveloperResources.aspx
 // http://www.gotransit.com/timetables/fr/schedules/DeveloperResources.aspx
@@ -164,16 +166,34 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
+	@Override
+	public int compare(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
+		if (routeId == LW_RID) {
+			if (ts1.getTripId() == 101) {
+				if (SID_EX.equals(ts1GStop.stop_id) && SID_UN.equals(ts2GStop.stop_id)) {
+					return +1;
+				}
+			}
+		}
+		System.out.printf("\n%s: Unexpected compare early route!\n", routeId);
+		System.exit(-1);
+		return -1;
+	}
+
 	private static final String STOUFFVILLE = "Stouffville";
 	private static final String BARRIE = "Barrie";
 	private static final String KITCHENER = "Kitchener";
+	private static final String UNION = "Union";
 	private static final String EAST = "East";
 	private static final String WEST = "West";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (mRoute.id == LW_RID) { // Lakeshore West
-			if (gTrip.direction_id == 1) {
+			if (gTrip.direction_id == 0) {
+				mTrip.setHeadsignString(UNION, gTrip.direction_id);
+				return;
+			} else if (gTrip.direction_id == 1) {
 				mTrip.setHeadsignString(WEST, gTrip.direction_id);
 				return;
 			}
