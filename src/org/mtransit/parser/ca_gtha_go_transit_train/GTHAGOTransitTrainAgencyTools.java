@@ -16,7 +16,7 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.mt.data.MSpec;
+import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
 
@@ -40,11 +40,11 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("Generating GO Transit train data...\n");
+		System.out.printf("\nGenerating GO Transit train data...\n");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this);
 		super.start(args);
-		System.out.printf("Generating GO Transit train data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		System.out.printf("\nGenerating GO Transit train data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 	@Override
@@ -112,8 +112,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
 		String routeLongName = gRoute.route_long_name;
-		routeLongName = MSpec.cleanStreetTypes(routeLongName);
-		return MSpec.cleanLabel(routeLongName);
+		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
+		return CleanUtils.cleanLabel(routeLongName);
 	}
 
 	private static final String ST_RSN = "ST"; // Stouffville
@@ -228,8 +228,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = START_WITH_RSN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = GO.matcher(tripHeadsign).replaceAll(GO_REPLACEMENT);
 		tripHeadsign = STATION.matcher(tripHeadsign).replaceAll(STATION_REPLACEMENT);
-		tripHeadsign = MSpec.cleanStreetTypes(tripHeadsign);
-		return MSpec.cleanLabel(tripHeadsign);
+		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
+		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
 	private static final Pattern AT = Pattern.compile("( at )", Pattern.CASE_INSENSITIVE);
@@ -254,9 +254,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		gStopName = GO.matcher(gStopName).replaceAll(GO_REPLACEMENT);
 		gStopName = RAIL.matcher(gStopName).replaceAll(RAIL_REPLACEMENT);
 		gStopName = STATION.matcher(gStopName).replaceAll(STATION_REPLACEMENT);
-		gStopName = MSpec.cleanNumbers(gStopName);
-		gStopName = MSpec.cleanStreetTypes(gStopName);
-		return MSpec.cleanLabel(gStopName);
+		gStopName = CleanUtils.cleanNumbers(gStopName);
+		gStopName = CleanUtils.cleanStreetTypes(gStopName);
+		return CleanUtils.cleanLabel(gStopName);
 	}
 
 	private static final String SID_UN = "UN";
