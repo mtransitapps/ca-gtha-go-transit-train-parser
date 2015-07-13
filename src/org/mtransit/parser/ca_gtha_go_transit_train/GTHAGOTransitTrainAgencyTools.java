@@ -40,7 +40,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating GO Transit train data...\n");
+		System.out.printf("\nGenerating GO Transit train data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this);
 		super.start(args);
