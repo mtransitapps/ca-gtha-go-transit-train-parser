@@ -385,8 +385,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final int LI_SID = 9742;
 	private static final String SID_KE = "KE";
 	private static final int KE_SID = 9771;
-	private static final String SID_JAMES_STR = "JAMES STR";
-	private static final int JAMES_STR_SID = 100001;
+	private static final String SID_WR = "WR";
+	private static final int WR_SID = 100001;
 	private static final String SID_USBT = "USBT";
 	private static final int USBT_SID = 100002;
 	private static final String SID_NI = "NI";
@@ -525,8 +525,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return LI_SID;
 			} else if (SID_KE.equals(gStop.stop_id)) {
 				return KE_SID;
-			} else if (SID_JAMES_STR.equals(gStop.stop_id)) {
-				return JAMES_STR_SID;
+			} else if (SID_WR.equals(gStop.stop_id)) {
+				return WR_SID;
 			} else if (SID_USBT.equals(gStop.stop_id)) {
 				return USBT_SID;
 			} else if (SID_NI.equals(gStop.stop_id)) {
@@ -536,7 +536,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			} else if (SID_SCTH.equals(gStop.stop_id)) {
 				return SCTH_SID;
 			} else {
-				System.out.println("Unexpected stop ID " + gStop);
+				System.out.printf("\nUnexpected stop ID %s.\n", gStop);
 				System.exit(-1);
 				return -1;
 			}
