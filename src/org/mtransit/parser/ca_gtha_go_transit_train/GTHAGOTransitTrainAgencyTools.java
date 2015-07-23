@@ -88,19 +88,19 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public long getRouteId(GRoute gRoute) {
-		if (ST_RSN.equals(gRoute.route_short_name)) {
+		if (ST_RSN.equals(gRoute.getRouteShortName())) {
 			return ST_RID;
-		} else if (RH_RSN.equals(gRoute.route_short_name)) {
+		} else if (RH_RSN.equals(gRoute.getRouteShortName())) {
 			return RH_RID;
-		} else if (MI_RSN.equals(gRoute.route_short_name)) {
+		} else if (MI_RSN.equals(gRoute.getRouteShortName())) {
 			return MI_RID;
-		} else if (LW_RSN.equals(gRoute.route_short_name)) {
+		} else if (LW_RSN.equals(gRoute.getRouteShortName())) {
 			return LW_RID;
-		} else if (LE_RSN.equals(gRoute.route_short_name)) {
+		} else if (LE_RSN.equals(gRoute.getRouteShortName())) {
 			return LE_RID;
-		} else if (GT_RSN.equals(gRoute.route_short_name)) {
+		} else if (GT_RSN.equals(gRoute.getRouteShortName())) {
 			return GT_RID;
-		} else if (BR_RSN.equals(gRoute.route_short_name)) {
+		} else if (BR_RSN.equals(gRoute.getRouteShortName())) {
 			return BR_RID;
 		} else {
 			System.out.println("Unexpected route ID " + gRoute);
@@ -111,7 +111,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
-		String routeLongName = gRoute.route_long_name;
+		String routeLongName = gRoute.getRouteLongName();
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
 		return CleanUtils.cleanLabel(routeLongName);
 	}
@@ -142,8 +142,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getRouteColor(GRoute gRoute) {
-		if (StringUtils.isEmpty(gRoute.route_color)) {
-			Matcher matcher = DIGITS.matcher(gRoute.route_id);
+		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
+			Matcher matcher = DIGITS.matcher(gRoute.getRouteId());
 			matcher.find();
 			int routeId = Integer.parseInt(matcher.group());
 			switch (routeId) {
@@ -170,7 +170,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	public int compare(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
 		if (routeId == LW_RID) {
 			if (ts1.getTripId() == 101) {
-				if (SID_EX.equals(ts1GStop.stop_id) && SID_UN.equals(ts2GStop.stop_id)) {
+				if (SID_EX.equals(ts1GStop.getStopId()) && SID_UN.equals(ts2GStop.getStopId())) {
 					return +1;
 				}
 			}
@@ -190,35 +190,35 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (mRoute.id == LW_RID) { // Lakeshore West
-			if (gTrip.direction_id == 0) {
-				mTrip.setHeadsignString(UNION, gTrip.direction_id);
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(UNION, gTrip.getDirectionId());
 				return;
-			} else if (gTrip.direction_id == 1) {
-				mTrip.setHeadsignString(WEST, gTrip.direction_id);
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(WEST, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.id == GT_RID) { // Kitchener
-			if (gTrip.direction_id == 1) {
-				mTrip.setHeadsignString(KITCHENER, gTrip.direction_id);
+			if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(KITCHENER, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.id == BR_RID) { // Barrie
-			if (gTrip.direction_id == 1) {
-				mTrip.setHeadsignString(BARRIE, gTrip.direction_id);
+			if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(BARRIE, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.id == ST_RID) { // Stouffville
-			if (gTrip.direction_id == 0) {
-				mTrip.setHeadsignString(STOUFFVILLE, gTrip.direction_id);
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(STOUFFVILLE, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.id == LE_RID) { // Lakeshore East
-			if (gTrip.direction_id == 0) {
-				mTrip.setHeadsignString(EAST, gTrip.direction_id);
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(EAST, gTrip.getDirectionId());
 				return;
 			}
 		}
-		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.trip_headsign), gTrip.direction_id);
+		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
 
 	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}\\-)", Pattern.CASE_INSENSITIVE);
@@ -398,142 +398,142 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int getStopId(GStop gStop) {
-		if (!Utils.isDigitsOnly(gStop.stop_id)) {
-			if (SID_UN.equals(gStop.stop_id)) {
+		if (!Utils.isDigitsOnly(gStop.getStopId())) {
+			if (SID_UN.equals(gStop.getStopId())) {
 				return UN_SID;
-			} else if (SID_EX.equals(gStop.stop_id)) {
+			} else if (SID_EX.equals(gStop.getStopId())) {
 				return EX_SID;
-			} else if (SID_MI.equals(gStop.stop_id)) {
+			} else if (SID_MI.equals(gStop.getStopId())) {
 				return MI_SID;
-			} else if (SID_LO.equals(gStop.stop_id)) {
+			} else if (SID_LO.equals(gStop.getStopId())) {
 				return LO_SID;
-			} else if (SID_DA.equals(gStop.stop_id)) {
+			} else if (SID_DA.equals(gStop.getStopId())) {
 				return DA_SID;
-			} else if (SID_SC.equals(gStop.stop_id)) {
+			} else if (SID_SC.equals(gStop.getStopId())) {
 				return SC_SID;
-			} else if (SID_EG.equals(gStop.stop_id)) {
+			} else if (SID_EG.equals(gStop.getStopId())) {
 				return EG_SID;
-			} else if (SID_GU.equals(gStop.stop_id)) {
+			} else if (SID_GU.equals(gStop.getStopId())) {
 				return GU_SID;
-			} else if (SID_RO.equals(gStop.stop_id)) {
+			} else if (SID_RO.equals(gStop.getStopId())) {
 				return RO_SID;
-			} else if (SID_PO.equals(gStop.stop_id)) {
+			} else if (SID_PO.equals(gStop.getStopId())) {
 				return PO_SID;
-			} else if (SID_CL.equals(gStop.stop_id)) {
+			} else if (SID_CL.equals(gStop.getStopId())) {
 				return CL_SID;
-			} else if (SID_OA.equals(gStop.stop_id)) {
+			} else if (SID_OA.equals(gStop.getStopId())) {
 				return OA_SID;
-			} else if (SID_BO.equals(gStop.stop_id)) {
+			} else if (SID_BO.equals(gStop.getStopId())) {
 				return BO_SID;
-			} else if (SID_AP.equals(gStop.stop_id)) {
+			} else if (SID_AP.equals(gStop.getStopId())) {
 				return AP_SID;
-			} else if (SID_BU.equals(gStop.stop_id)) {
+			} else if (SID_BU.equals(gStop.getStopId())) {
 				return BU_SID;
-			} else if (SID_AL.equals(gStop.stop_id)) {
+			} else if (SID_AL.equals(gStop.getStopId())) {
 				return AL_SID;
-			} else if (SID_PIN.equals(gStop.stop_id)) {
+			} else if (SID_PIN.equals(gStop.getStopId())) {
 				return PIN_SID;
-			} else if (SID_AJ.equals(gStop.stop_id)) {
+			} else if (SID_AJ.equals(gStop.getStopId())) {
 				return AJ_SID;
-			} else if (SID_WH.equals(gStop.stop_id)) {
+			} else if (SID_WH.equals(gStop.getStopId())) {
 				return WH_SID;
-			} else if (SID_OS.equals(gStop.stop_id)) {
+			} else if (SID_OS.equals(gStop.getStopId())) {
 				return OS_SID;
-			} else if (SID_BL.equals(gStop.stop_id)) {
+			} else if (SID_BL.equals(gStop.getStopId())) {
 				return BL_SID;
-			} else if (SID_KP.equals(gStop.stop_id)) {
+			} else if (SID_KP.equals(gStop.getStopId())) {
 				return KP_SID;
-			} else if (SID_WE.equals(gStop.stop_id)) {
+			} else if (SID_WE.equals(gStop.getStopId())) {
 				return WE_SID;
-			} else if (SID_ET.equals(gStop.stop_id)) {
+			} else if (SID_ET.equals(gStop.getStopId())) {
 				return ET_SID;
-			} else if (SID_OR.equals(gStop.stop_id)) {
+			} else if (SID_OR.equals(gStop.getStopId())) {
 				return OR_SID;
-			} else if (SID_OL.equals(gStop.stop_id)) {
+			} else if (SID_OL.equals(gStop.getStopId())) {
 				return OL_SID;
-			} else if (SID_AG.equals(gStop.stop_id)) {
+			} else if (SID_AG.equals(gStop.getStopId())) {
 				return AG_SID;
-			} else if (SID_DI.equals(gStop.stop_id)) {
+			} else if (SID_DI.equals(gStop.getStopId())) {
 				return DI_SID;
-			} else if (SID_CO.equals(gStop.stop_id)) {
+			} else if (SID_CO.equals(gStop.getStopId())) {
 				return CO_SID;
-			} else if (SID_ER.equals(gStop.stop_id)) {
+			} else if (SID_ER.equals(gStop.getStopId())) {
 				return ER_SID;
-			} else if (SID_HA.equals(gStop.stop_id)) {
+			} else if (SID_HA.equals(gStop.getStopId())) {
 				return HA_SID;
-			} else if (SID_YO.equals(gStop.stop_id)) {
+			} else if (SID_YO.equals(gStop.getStopId())) {
 				return YO_SID;
-			} else if (SID_SR.equals(gStop.stop_id)) {
+			} else if (SID_SR.equals(gStop.getStopId())) {
 				return SR_SID;
-			} else if (SID_ME.equals(gStop.stop_id)) {
+			} else if (SID_ME.equals(gStop.getStopId())) {
 				return ME_SID;
-			} else if (SID_LS.equals(gStop.stop_id)) {
+			} else if (SID_LS.equals(gStop.getStopId())) {
 				return LS_SID;
-			} else if (SID_ML.equals(gStop.stop_id)) {
+			} else if (SID_ML.equals(gStop.getStopId())) {
 				return ML_SID;
-			} else if (SID_KI.equals(gStop.stop_id)) {
+			} else if (SID_KI.equals(gStop.getStopId())) {
 				return KI_SID;
-			} else if (SID_MA.equals(gStop.stop_id)) {
+			} else if (SID_MA.equals(gStop.getStopId())) {
 				return MA_SID;
-			} else if (SID_BE.equals(gStop.stop_id)) {
+			} else if (SID_BE.equals(gStop.getStopId())) {
 				return BE_SID;
-			} else if (SID_BR.equals(gStop.stop_id)) {
+			} else if (SID_BR.equals(gStop.getStopId())) {
 				return BR_SID;
-			} else if (SID_MO.equals(gStop.stop_id)) {
+			} else if (SID_MO.equals(gStop.getStopId())) {
 				return MO_SID;
-			} else if (SID_GE.equals(gStop.stop_id)) {
+			} else if (SID_GE.equals(gStop.getStopId())) {
 				return GE_SID;
-			} else if (SID_AC.equals(gStop.stop_id)) {
+			} else if (SID_AC.equals(gStop.getStopId())) {
 				return AC_SID;
-			} else if (SID_GL.equals(gStop.stop_id)) {
+			} else if (SID_GL.equals(gStop.getStopId())) {
 				return GL_SID;
-			} else if (SID_EA.equals(gStop.stop_id)) {
+			} else if (SID_EA.equals(gStop.getStopId())) {
 				return EA_SID;
-			} else if (SID_LA.equals(gStop.stop_id)) {
+			} else if (SID_LA.equals(gStop.getStopId())) {
 				return LA_SID;
-			} else if (SID_RI.equals(gStop.stop_id)) {
+			} else if (SID_RI.equals(gStop.getStopId())) {
 				return RI_SID;
-			} else if (SID_MP.equals(gStop.stop_id)) {
+			} else if (SID_MP.equals(gStop.getStopId())) {
 				return MP_SID;
-			} else if (SID_RU.equals(gStop.stop_id)) {
+			} else if (SID_RU.equals(gStop.getStopId())) {
 				return RU_SID;
-			} else if (SID_KC.equals(gStop.stop_id)) {
+			} else if (SID_KC.equals(gStop.getStopId())) {
 				return KC_SID;
-			} else if (SID_AU.equals(gStop.stop_id)) {
+			} else if (SID_AU.equals(gStop.getStopId())) {
 				return AU_SID;
-			} else if (SID_NE.equals(gStop.stop_id)) {
+			} else if (SID_NE.equals(gStop.getStopId())) {
 				return NE_SID;
-			} else if (SID_BD.equals(gStop.stop_id)) {
+			} else if (SID_BD.equals(gStop.getStopId())) {
 				return BD_SID;
-			} else if (SID_BA.equals(gStop.stop_id)) {
+			} else if (SID_BA.equals(gStop.getStopId())) {
 				return BA_SID;
-			} else if (SID_AD.equals(gStop.stop_id)) {
+			} else if (SID_AD.equals(gStop.getStopId())) {
 				return AD_SID;
-			} else if (SID_MK.equals(gStop.stop_id)) {
+			} else if (SID_MK.equals(gStop.getStopId())) {
 				return MK_SID;
-			} else if (SID_UI.equals(gStop.stop_id)) {
+			} else if (SID_UI.equals(gStop.getStopId())) {
 				return UI_SID;
-			} else if (SID_MR.equals(gStop.stop_id)) {
+			} else if (SID_MR.equals(gStop.getStopId())) {
 				return MR_SID;
-			} else if (SID_CE.equals(gStop.stop_id)) {
+			} else if (SID_CE.equals(gStop.getStopId())) {
 				return CE_SID;
-			} else if (SID_MJ.equals(gStop.stop_id)) {
+			} else if (SID_MJ.equals(gStop.getStopId())) {
 				return MJ_SID;
-			} else if (SID_ST.equals(gStop.stop_id)) {
+			} else if (SID_ST.equals(gStop.getStopId())) {
 				return ST_SID;
-			} else if (SID_LI.equals(gStop.stop_id)) {
+			} else if (SID_LI.equals(gStop.getStopId())) {
 				return LI_SID;
-			} else if (SID_KE.equals(gStop.stop_id)) {
+			} else if (SID_KE.equals(gStop.getStopId())) {
 				return KE_SID;
-			} else if (SID_WR.equals(gStop.stop_id)) {
+			} else if (SID_WR.equals(gStop.getStopId())) {
 				return WR_SID;
-			} else if (SID_USBT.equals(gStop.stop_id)) {
+			} else if (SID_USBT.equals(gStop.getStopId())) {
 				return USBT_SID;
-			} else if (SID_NI.equals(gStop.stop_id)) {
+			} else if (SID_NI.equals(gStop.getStopId())) {
 				return NI_SID;
-			} else if (SID_PA.equals(gStop.stop_id)) {
+			} else if (SID_PA.equals(gStop.getStopId())) {
 				return PA_SID;
-			} else if (SID_SCTH.equals(gStop.stop_id)) {
+			} else if (SID_SCTH.equals(gStop.getStopId())) {
 				return SCTH_SID;
 			} else {
 				System.out.printf("\nUnexpected stop ID %s.\n", gStop);
