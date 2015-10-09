@@ -189,7 +189,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.id == LW_RID) { // Lakeshore West
+		if (mRoute.getId() == LW_RID) { // Lakeshore West
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(UNION, gTrip.getDirectionId());
 				return;
@@ -197,22 +197,22 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(WEST, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == GT_RID) { // Kitchener
+		} else if (mRoute.getId() == GT_RID) { // Kitchener
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(KITCHENER, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == BR_RID) { // Barrie
+		} else if (mRoute.getId() == BR_RID) { // Barrie
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(BARRIE, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == ST_RID) { // Stouffville
+		} else if (mRoute.getId() == ST_RID) { // Stouffville
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(STOUFFVILLE, gTrip.getDirectionId());
 				return;
 			}
-		} else if (mRoute.id == LE_RID) { // Lakeshore East
+		} else if (mRoute.getId() == LE_RID) { // Lakeshore East
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(EAST, gTrip.getDirectionId());
 				return;
@@ -232,8 +232,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
-	private static final Pattern AT = Pattern.compile("( at )", Pattern.CASE_INSENSITIVE);
-	private static final String AT_REPLACEMENT = " / ";
 
 	private static final Pattern GO = Pattern.compile("(^|\\s){1}(go)($|\\s){1}", Pattern.CASE_INSENSITIVE);
 	private static final String GO_REPLACEMENT = " ";
@@ -249,7 +247,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String cleanStopName(String gStopName) {
-		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
+		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = VIA.matcher(gStopName).replaceAll(VIA_REPLACEMENT);
 		gStopName = GO.matcher(gStopName).replaceAll(GO_REPLACEMENT);
 		gStopName = RAIL.matcher(gStopName).replaceAll(RAIL_REPLACEMENT);
