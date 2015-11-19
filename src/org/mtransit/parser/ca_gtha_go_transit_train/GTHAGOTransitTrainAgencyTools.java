@@ -168,20 +168,12 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int compare(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
-		if (routeId == LW_RID) {
-			if (ts1.getTripId() == 101) {
-				if (SID_EX.equals(ts1GStop.getStopId()) && SID_UN.equals(ts2GStop.getStopId())) {
-					return +1;
-				}
-			}
-		}
 		System.out.printf("\n%s: Unexpected compare early route!\n", routeId);
 		System.exit(-1);
 		return -1;
 	}
 
-	private static final String STOUFFVILLE = "Stouffville";
-	private static final String BARRIE = "Barrie";
+	private static final String LINCOLNVILLE = "Lincolnville";
 	private static final String KITCHENER = "Kitchener";
 	private static final String UNION = "Union";
 	private static final String EAST = "East";
@@ -189,36 +181,36 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.getId() == LW_RID) { // Lakeshore West
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(UNION, gTrip.getDirectionId());
-				return;
-			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(WEST, gTrip.getDirectionId());
-				return;
+		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
+	}
+
+	@Override
+	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
+				return true;
+			} else if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(WEST, mTrip.getHeadsignId());
+				return true;
 			}
-		} else if (mRoute.getId() == GT_RID) { // Kitchener
-			if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(KITCHENER, gTrip.getDirectionId());
-				return;
+		} else if (mTrip.getRouteId() == GT_RID) { // Kitchener
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
+				return true;
 			}
-		} else if (mRoute.getId() == BR_RID) { // Barrie
-			if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(BARRIE, gTrip.getDirectionId());
-				return;
+		} else if (mTrip.getRouteId() == ST_RID) { // Stouffville
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(LINCOLNVILLE, mTrip.getHeadsignId());
+				return true;
 			}
-		} else if (mRoute.getId() == ST_RID) { // Stouffville
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(STOUFFVILLE, gTrip.getDirectionId());
-				return;
-			}
-		} else if (mRoute.getId() == LE_RID) { // Lakeshore East
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(EAST, gTrip.getDirectionId());
-				return;
+		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(EAST, mTrip.getHeadsignId());
+				return true;
 			}
 		}
-		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
+		return super.mergeHeadsign(mTrip, mTripToMerge);
 	}
 
 	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}\\-)", Pattern.CASE_INSENSITIVE);
