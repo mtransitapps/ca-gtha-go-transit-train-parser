@@ -174,10 +174,10 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String LINCOLNVILLE = "Lincolnville";
+	private static final String OSHAWA = "Oshawa";
 	private static final String KITCHENER = "Kitchener";
+	private static final String HAMILTON = "Hamilton";
 	private static final String UNION = "Union";
-	private static final String EAST = "East";
-	private static final String WEST = "West";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -191,7 +191,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
 				return true;
 			} else if (mTrip.getHeadsignId() == 1) {
-				mTrip.setHeadsignString(WEST, mTrip.getHeadsignId());
+				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == GT_RID) { // Kitchener
@@ -206,7 +206,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (mTrip.getHeadsignId() == 0) {
-				mTrip.setHeadsignString(EAST, mTrip.getHeadsignId());
+				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
 				return true;
 			}
 		}
@@ -215,10 +215,14 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}\\-)", Pattern.CASE_INSENSITIVE);
 
+	private static final Pattern CENTER = Pattern.compile("((^|\\W){1}(center|centre|ctr)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String CENTER_REPLACEMENT = " ";
+
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = START_WITH_RSN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = GO.matcher(tripHeadsign).replaceAll(GO_REPLACEMENT);
+		tripHeadsign = CENTER.matcher(tripHeadsign).replaceAll(CENTER_REPLACEMENT);
 		tripHeadsign = STATION.matcher(tripHeadsign).replaceAll(STATION_REPLACEMENT);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
