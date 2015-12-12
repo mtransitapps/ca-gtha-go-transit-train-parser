@@ -133,7 +133,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String COLOR_098137 = "098137";
 	private static final String COLOR_0B335E = "0B335E";
 	private static final String COLOR_0098C9 = "0098C9";
-	private static final String COLOR_713907 = "713907";
+	private static final String COLOR_794500 = "794500";
 	private static final String COLOR_96092B = "96092B";
 	private static final String COLOR_EE3124 = "EE3124";
 
@@ -148,7 +148,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			case 3: return COLOR_098137; // Kitchener
 			case 5: return COLOR_0B335E; // Barrie
 			case 6: return COLOR_0098C9; // Richmond Hill
-			case 7: return COLOR_713907; // Stouffville
+			case 7: return COLOR_794500; // Stouffville
 			case 8: return COLOR_BC6277; // Niagara Falls
 			case 9: return COLOR_EE3124; // Lakeshore East
 			// @formatter:on
