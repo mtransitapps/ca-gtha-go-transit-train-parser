@@ -2,10 +2,10 @@ package org.mtransit.parser.ca_gtha_go_transit_train;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
@@ -16,7 +16,6 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
 
@@ -42,7 +41,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	public void start(String[] args) {
 		System.out.printf("\nGenerating GO Transit train data...");
 		long start = System.currentTimeMillis();
-		this.serviceIds = extractUsefulServiceIds(args, this);
+		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
 		System.out.printf("\nGenerating GO Transit train data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
@@ -75,8 +74,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	public Integer getAgencyRouteType() {
 		return MAgency.ROUTE_TYPE_TRAIN;
 	}
-
-	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
 
 	private static final long LW_RID = 1l; // Lakeshore West
 	private static final long MI_RID = 2l; // Milton
@@ -143,9 +140,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public String getRouteColor(GRoute gRoute) {
 		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
-			Matcher matcher = DIGITS.matcher(gRoute.getRouteId());
-			matcher.find();
-			int routeId = Integer.parseInt(matcher.group());
+			int routeId = (int) getRouteId(gRoute);
 			switch (routeId) {
 			// @formatter:off
 			case 1: return COLOR_96092B; // Lakeshore West
@@ -157,11 +152,10 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			case 8: return COLOR_BC6277; // Niagara Falls
 			case 9: return COLOR_EE3124; // Lakeshore East
 			// @formatter:on
-			default:
-				System.out.println("getRouteColor() > Unexpected route ID color '" + routeId + "' (" + gRoute + ")");
-				System.exit(-1);
-				return null;
 			}
+			System.out.printf("Unexpected route color '%s'!\n", gRoute);
+			System.exit(-1);
+			return null;
 		}
 		return super.getRouteColor(gRoute);
 	}
@@ -227,7 +221,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
-
 
 	private static final Pattern GO = Pattern.compile("(^|\\s){1}(go)($|\\s){1}", Pattern.CASE_INSENSITIVE);
 	private static final String GO_REPLACEMENT = " ";
