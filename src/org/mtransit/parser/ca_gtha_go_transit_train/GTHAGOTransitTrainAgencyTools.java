@@ -160,13 +160,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
-	@Override
-	public int compare(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
-		System.out.printf("\n%s: Unexpected compare early route!\n", routeId);
-		System.exit(-1);
-		return -1;
-	}
-
 	private static final String LINCOLNVILLE = "Lincolnville";
 	private static final String OSHAWA = "Oshawa";
 	private static final String KITCHENER = "Kitchener";
