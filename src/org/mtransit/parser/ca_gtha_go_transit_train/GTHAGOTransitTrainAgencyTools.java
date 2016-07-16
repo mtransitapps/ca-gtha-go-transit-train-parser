@@ -1,7 +1,6 @@
 package org.mtransit.parser.ca_gtha_go_transit_train;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +16,6 @@ import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
-import org.mtransit.parser.mt.data.MTripStop;
 
 // http://www.gotransit.com/publicroot/en/schedules/DeveloperResources.aspx
 // http://www.gotransit.com/timetables/fr/schedules/DeveloperResources.aspx
