@@ -184,6 +184,11 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
 				return true;
 			}
+		} else if (mTrip.getRouteId() == RH_RID) { // Richmond Hill
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString("Gormley", mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == ST_RID) { // Stouffville
 			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(LINCOLNVILLE, mTrip.getHeadsignId());
@@ -195,7 +200,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		return super.mergeHeadsign(mTrip, mTripToMerge);
+		System.out.printf("\nUnexpected trips to merge %s & %s!!\n", mTrip, mTripToMerge);
+		return false;
 	}
 
 	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}\\-)", Pattern.CASE_INSENSITIVE);
@@ -321,6 +327,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final int MO_SID = 9341;
 	private static final String SID_GE = "GE";
 	private static final int GE_SID = 9351;
+	private static final String SID_GO = "GO";
+	private static final int GO_SID = 2629;
 	private static final String SID_AC = "AC";
 	private static final int AC_SID = 9371;
 	private static final String SID_GL = "GL";
@@ -461,6 +469,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return MO_SID;
 			} else if (SID_GE.equals(gStop.getStopId())) {
 				return GE_SID;
+			} else if (SID_GO.equals(gStop.getStopId())) {
+				return GO_SID;
 			} else if (SID_AC.equals(gStop.getStopId())) {
 				return AC_SID;
 			} else if (SID_GL.equals(gStop.getStopId())) {
