@@ -75,7 +75,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final long LW_RID = 1l; // Lakeshore West
 	private static final long MI_RID = 2l; // Milton
-	private static final long GT_RID = 3l; // Kitchener
+	private static final long KI_RID = 3l; // Kitchener
 	private static final long BR_RID = 5l; // Barrie
 	private static final long RH_RID = 6l; // Richmond Hill
 	private static final long ST_RID = 7l; // Stouffville
@@ -93,12 +93,12 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			return LW_RID;
 		} else if (LE_RSN.equals(gRoute.getRouteShortName())) {
 			return LE_RID;
-		} else if (GT_RSN.equals(gRoute.getRouteShortName())) {
-			return GT_RID;
+		} else if (KI_RSN.equals(gRoute.getRouteShortName())) {
+			return KI_RID;
 		} else if (BR_RSN.equals(gRoute.getRouteShortName())) {
 			return BR_RID;
 		} else {
-			System.out.println("Unexpected route ID " + gRoute);
+			System.out.printf("\nUnexpected route ID for %s!\n", gRoute);
 			System.exit(-1);
 			return -1l;
 		}
@@ -116,7 +116,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String MI_RSN = "MI"; // Milton
 	private static final String LW_RSN = "LW"; // Lakeshore West
 	private static final String LE_RSN = "LE"; // Lakeshore East
-	private static final String GT_RSN = "GT"; // Kitchener
+	private static final String KI_RSN = "KI"; // Kitchener
 	private static final String BR_RSN = "BR"; // Barrie
 
 	private static final String AGENCY_COLOR = "387C2B"; // GREEN (AGENCY WEB SITE CSS)
@@ -162,7 +162,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String OSHAWA = "Oshawa";
 	private static final String KITCHENER = "Kitchener";
 	private static final String HAMILTON = "Hamilton";
-	private static final String UNION = "Union";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -172,16 +171,19 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
-			if (mTrip.getHeadsignId() == 0) {
-				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
-				return true;
-			} else if (mTrip.getHeadsignId() == 1) {
+			if (mTrip.getHeadsignId() == 1) {
 				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == GT_RID) { // Kitchener
+		} else if (mTrip.getRouteId() == MI_RID) { // Milton
+		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
 			if (mTrip.getHeadsignId() == 1) {
 				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString("Allandale Waterfront", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == RH_RID) { // Richmond Hill
@@ -206,12 +208,27 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}\\-)", Pattern.CASE_INSENSITIVE);
 
+	private static final Pattern FIRST_STATION_TIME_LAST_STATION_TIME = Pattern.compile("" //
+			+ "(" //
+			+ "([\\w\\s]*)" //
+			+ "[\\s]+" //
+			+ "([\\d]{2}\\:[\\d]{2})" //
+			+ "[\\s]+" //
+			+ "\\-" //
+			+ "[\\s]+" //
+			+ "([\\w\\s]*)" //
+			+ "[\\s]+" //
+			+ "([\\d]{2}\\:[\\d]{2})" //
+			+ ")", Pattern.CASE_INSENSITIVE);
+	private static final String FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT = "$4";
+
 	private static final Pattern CENTER = Pattern.compile("((^|\\W){1}(center|centre|ctr)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String CENTER_REPLACEMENT = " ";
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = START_WITH_RSN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = FIRST_STATION_TIME_LAST_STATION_TIME.matcher(tripHeadsign).replaceAll(FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT);
 		tripHeadsign = GO.matcher(tripHeadsign).replaceAll(GO_REPLACEMENT);
 		tripHeadsign = CENTER.matcher(tripHeadsign).replaceAll(CENTER_REPLACEMENT);
 		tripHeadsign = STATION.matcher(tripHeadsign).replaceAll(STATION_REPLACEMENT);
