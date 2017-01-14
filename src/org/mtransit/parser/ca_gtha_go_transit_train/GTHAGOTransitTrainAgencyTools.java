@@ -93,7 +93,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			return LW_RID;
 		} else if (LE_RSN.equals(gRoute.getRouteShortName())) {
 			return LE_RID;
-		} else if (KI_RSN.equals(gRoute.getRouteShortName())) {
+		} else if (KI_RSN.equals(gRoute.getRouteShortName()) //
+				|| GT_RSN.equals(gRoute.getRouteShortName())) {
 			return KI_RID;
 		} else if (BR_RSN.equals(gRoute.getRouteShortName())) {
 			return BR_RID;
@@ -117,6 +118,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String LW_RSN = "LW"; // Lakeshore West
 	private static final String LE_RSN = "LE"; // Lakeshore East
 	private static final String KI_RSN = "KI"; // Kitchener
+	private static final String GT_RSN = "GT"; // Kitchener
 	private static final String BR_RSN = "BR"; // Barrie
 
 	private static final String AGENCY_COLOR = "387C2B"; // GREEN (AGENCY WEB SITE CSS)
@@ -158,6 +160,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
+	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
+	private static final String GORMLEY = "Gormley";
 	private static final String LINCOLNVILLE = "Lincolnville";
 	private static final String OSHAWA = "Oshawa";
 	private static final String KITCHENER = "Kitchener";
@@ -171,24 +175,24 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
-			if (mTrip.getHeadsignId() == 1) {
+			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == MI_RID) { // Milton
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
-			if (mTrip.getHeadsignId() == 1) {
+			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
-			if (mTrip.getHeadsignId() == 1) {
-				mTrip.setHeadsignString("Allandale Waterfront", mTrip.getHeadsignId());
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(ALLANDALE_WATERFRONT, mTrip.getHeadsignId()); // Barrie
 				return true;
 			}
 		} else if (mTrip.getRouteId() == RH_RID) { // Richmond Hill
-			if (mTrip.getHeadsignId() == 1) {
-				mTrip.setHeadsignString("Gormley", mTrip.getHeadsignId());
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(GORMLEY, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == ST_RID) { // Stouffville
@@ -202,7 +206,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		System.out.printf("\nUnexpected trips to merge %s & %s!!\n", mTrip, mTripToMerge);
+		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		return false;
 	}
 
