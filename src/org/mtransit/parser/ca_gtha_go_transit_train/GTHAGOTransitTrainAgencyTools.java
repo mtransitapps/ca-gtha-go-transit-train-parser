@@ -98,11 +98,26 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			return KI_RID;
 		} else if (BR_RSN.equals(gRoute.getRouteShortName())) {
 			return BR_RID;
-		} else {
-			System.out.printf("\nUnexpected route ID for %s!\n", gRoute);
-			System.exit(-1);
-			return -1l;
 		}
+		if (gRoute.getRouteId().endsWith(ST_RSN)) {
+			return ST_RID;
+		} else if (gRoute.getRouteId().endsWith(RH_RSN)) {
+			return RH_RID;
+		} else if (gRoute.getRouteId().endsWith(MI_RSN)) {
+			return MI_RID;
+		} else if (gRoute.getRouteId().endsWith(LW_RSN)) {
+			return LW_RID;
+		} else if (gRoute.getRouteId().endsWith(LE_RSN)) {
+			return LE_RID;
+		} else if (gRoute.getRouteId().endsWith(KI_RSN) //
+				|| gRoute.getRouteId().endsWith(GT_RSN)) {
+			return KI_RID;
+		} else if (gRoute.getRouteId().endsWith(BR_RSN)) {
+			return BR_RID;
+		}
+		System.out.printf("\nUnexpected route ID for %s!\n", gRoute);
+		System.exit(-1);
+		return -1l;
 	}
 
 	@Override
@@ -120,6 +135,32 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String KI_RSN = "KI"; // Kitchener
 	private static final String GT_RSN = "GT"; // Kitchener
 	private static final String BR_RSN = "BR"; // Barrie
+
+	@Override
+	public String getRouteShortName(GRoute gRoute) {
+		if (StringUtils.isEmpty(gRoute.getRouteShortName())) {
+			if (gRoute.getRouteId().endsWith(ST_RSN)) {
+				return ST_RSN;
+			} else if (gRoute.getRouteId().endsWith(RH_RSN)) {
+				return RH_RSN;
+			} else if (gRoute.getRouteId().endsWith(MI_RSN)) {
+				return MI_RSN;
+			} else if (gRoute.getRouteId().endsWith(LW_RSN)) {
+				return LW_RSN;
+			} else if (gRoute.getRouteId().endsWith(LE_RSN)) {
+				return LE_RSN;
+			} else if (gRoute.getRouteId().endsWith(KI_RSN) //
+					|| gRoute.getRouteId().endsWith(GT_RSN)) {
+				return GT_RSN;
+			} else if (gRoute.getRouteId().endsWith(BR_RSN)) {
+				return BR_RSN;
+			}
+			System.out.printf("\nUnexpected route short name for %s!\n", gRoute);
+			System.exit(-1);
+			return null;
+		}
+		return super.getRouteShortName(gRoute);
+	}
 
 	private static final String AGENCY_COLOR = "387C2B"; // GREEN (AGENCY WEB SITE CSS)
 
