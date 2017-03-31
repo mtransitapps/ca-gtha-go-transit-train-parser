@@ -1,5 +1,6 @@
 package org.mtransit.parser.ca_gtha_go_transit_train;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
@@ -216,33 +217,48 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
-			if (mTrip.getHeadsignId() == 0) {
+			if (Arrays.asList( //
+					"Aldershot", //
+					"Oakville", //
+					"West Harbour" //
+			).contains(mTrip.getHeadsignValue())) {
 				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == MI_RID) { // Milton
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
-			if (mTrip.getHeadsignId() == 0) {
+			if (Arrays.asList( //
+					"Georgetown", //
+					"Mt Pleasant" //
+			).contains(mTrip.getHeadsignValue())) {
 				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
-			if (mTrip.getHeadsignId() == 0) {
+			if (Arrays.asList( //
+					"Aurora" //
+			).contains(mTrip.getHeadsignValue())) {
 				mTrip.setHeadsignString(ALLANDALE_WATERFRONT, mTrip.getHeadsignId()); // Barrie
 				return true;
 			}
 		} else if (mTrip.getRouteId() == RH_RID) { // Richmond Hill
-			if (mTrip.getHeadsignId() == 0) {
+			if (Arrays.asList( //
+					"Richmond Hl" //
+			).contains(mTrip.getHeadsignValue())) {
 				mTrip.setHeadsignString(GORMLEY, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == ST_RID) { // Stouffville
-			if (mTrip.getHeadsignId() == 0) {
+			if (Arrays.asList( //
+					"Unionville" //
+			).contains(mTrip.getHeadsignValue())) {
 				mTrip.setHeadsignString(LINCOLNVILLE, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
-			if (mTrip.getHeadsignId() == 0) {
+			if (Arrays.asList( //
+					"Pickering" //
+					).contains(mTrip.getHeadsignValue())) {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
 				return true;
 			}
@@ -251,7 +267,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return false;
 	}
 
-	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}\\-)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}(\\s+)\\- )", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern FIRST_STATION_TIME_LAST_STATION_TIME = Pattern.compile("" //
 			+ "(" //
