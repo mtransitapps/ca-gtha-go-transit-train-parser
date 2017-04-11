@@ -2,6 +2,7 @@ package org.mtransit.parser.ca_gtha_go_transit_train;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -202,12 +203,21 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
+	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
+	private static final String AURORA = "Aurora";
+	private static final String GEORGETOWN = "Georgetown";
 	private static final String GORMLEY = "Gormley";
-	private static final String LINCOLNVILLE = "Lincolnville";
-	private static final String OSHAWA = "Oshawa";
-	private static final String KITCHENER = "Kitchener";
 	private static final String HAMILTON = "Hamilton";
+	private static final String LINCOLNVILLE = "Lincolnville";
+	private static final String MOUNT_PLEASANT = "Mt Pleasant";
+	private static final String OAKVILLE = "Oakville";
+	private static final String OSHAWA = "Oshawa";
+	private static final String PICKERING = "Pickering";
+	private static final String RICHMOND_HILL = "Richmond Hl";
+	private static final String KITCHENER = "Kitchener";
+	private static final String UNIONVILLE = "Unionville";
+	private static final String WEST_HARBOUR = "West Harbour";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -218,47 +228,52 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
 			if (Arrays.asList( //
-					"Aldershot", //
-					"Oakville", //
-					"West Harbour" //
-			).contains(mTrip.getHeadsignValue())) {
+					ALDERSHOT, //
+					HAMILTON, //
+					OAKVILLE, //
+					WEST_HARBOUR //
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == MI_RID) { // Milton
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
 			if (Arrays.asList( //
-					"Georgetown", //
-					"Mt Pleasant" //
-			).contains(mTrip.getHeadsignValue())) {
+					GEORGETOWN, //
+					KITCHENER, //
+					MOUNT_PLEASANT //
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
 			if (Arrays.asList( //
-					"Aurora" //
-			).contains(mTrip.getHeadsignValue())) {
+					ALLANDALE_WATERFRONT, //
+					AURORA //
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(ALLANDALE_WATERFRONT, mTrip.getHeadsignId()); // Barrie
 				return true;
 			}
 		} else if (mTrip.getRouteId() == RH_RID) { // Richmond Hill
 			if (Arrays.asList( //
-					"Richmond Hl" //
-			).contains(mTrip.getHeadsignValue())) {
+					GORMLEY, //
+					RICHMOND_HILL //
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(GORMLEY, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == ST_RID) { // Stouffville
 			if (Arrays.asList( //
-					"Unionville" //
-			).contains(mTrip.getHeadsignValue())) {
+					LINCOLNVILLE, //
+					UNIONVILLE //
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(LINCOLNVILLE, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (Arrays.asList( //
-					"Pickering" //
-					).contains(mTrip.getHeadsignValue())) {
+					OSHAWA, //
+					PICKERING //
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
 				return true;
 			}
