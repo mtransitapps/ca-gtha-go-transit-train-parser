@@ -211,6 +211,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String HAMILTON = "Hamilton";
 	private static final String LINCOLNVILLE = "Lincolnville";
 	private static final String MOUNT_PLEASANT = "Mt Pleasant";
+	private static final String NIAGARA_FALLS = "Niagara Falls";
 	private static final String OAKVILLE = "Oakville";
 	private static final String OSHAWA = "Oshawa";
 	private static final String PICKERING = "Pickering";
@@ -234,6 +235,15 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 					WEST_HARBOUR //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
+				return true;
+			} else if (Arrays.asList( //
+					ALDERSHOT, //
+					HAMILTON, //
+					NIAGARA_FALLS, //
+					OAKVILLE, //
+					WEST_HARBOUR //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(NIAGARA_FALLS, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
