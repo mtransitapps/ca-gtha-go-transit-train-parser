@@ -219,6 +219,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String KITCHENER = "Kitchener";
 	private static final String UNIONVILLE = "Unionville";
 	private static final String WEST_HARBOUR = "West Harbour";
+	private static final String WHITBY = "Whitby";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -282,6 +283,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (Arrays.asList( //
 					OSHAWA, //
+					WHITBY, //
 					PICKERING //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
