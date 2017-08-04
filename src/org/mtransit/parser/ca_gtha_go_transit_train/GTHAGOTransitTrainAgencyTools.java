@@ -206,6 +206,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
 	private static final String AURORA = "Aurora";
+	private static final String EXHIBITION = "Exhibition";
 	private static final String GEORGETOWN = "Georgetown";
 	private static final String GORMLEY = "Gormley";
 	private static final String HAMILTON = "Hamilton";
@@ -228,6 +229,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
 			if (Arrays.asList( //
 					ALDERSHOT, //
@@ -239,6 +241,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return true;
 			} else if (Arrays.asList( //
 					ALDERSHOT, //
+					EXHIBITION, //
 					HAMILTON, //
 					NIAGARA_FALLS, //
 					OAKVILLE, //
@@ -291,6 +294,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		}
 		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
+		System.exit(-1);
 		return false;
 	}
 
