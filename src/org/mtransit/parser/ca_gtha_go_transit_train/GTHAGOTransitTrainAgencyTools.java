@@ -206,6 +206,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
 	private static final String AURORA = "Aurora";
+	private static final String BRADFORD = "Bradford";
 	private static final String EXHIBITION = "Exhibition";
 	private static final String GEORGETOWN = "Georgetown";
 	private static final String GORMLEY = "Gormley";
@@ -262,7 +263,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
 			if (Arrays.asList( //
 					ALLANDALE_WATERFRONT, //
-					AURORA //
+					AURORA, //
+					BRADFORD //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(ALLANDALE_WATERFRONT, mTrip.getHeadsignId()); // Barrie
 				return true;
