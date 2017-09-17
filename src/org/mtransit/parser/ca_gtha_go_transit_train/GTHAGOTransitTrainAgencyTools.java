@@ -196,6 +196,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			case 9: return COLOR_EE3124; // Lakeshore East
 			// @formatter:on
 			}
+			if (isGoodEnoughAccepted()) {
+				return null;
+			}
 			System.out.printf("Unexpected route color '%s'!\n", gRoute);
 			System.exit(-1);
 			return null;
@@ -205,6 +208,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
+	private static final String APPLEBY = "Appleby";
 	private static final String AURORA = "Aurora";
 	private static final String BRADFORD = "Bradford";
 	private static final String EXHIBITION = "Exhibition";
@@ -234,6 +238,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
 			if (Arrays.asList( //
 					ALDERSHOT, //
+					APPLEBY, //
 					HAMILTON, //
 					OAKVILLE, //
 					WEST_HARBOUR //
@@ -294,6 +299,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
 				return true;
 			}
+		}
+		if (isGoodEnoughAccepted()) {
+			return super.mergeHeadsign(mTrip, mTripToMerge);
 		}
 		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		System.exit(-1);
