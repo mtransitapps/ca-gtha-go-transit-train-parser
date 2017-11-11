@@ -75,13 +75,13 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return MAgency.ROUTE_TYPE_TRAIN;
 	}
 
-	private static final long LW_RID = 1l; // Lakeshore West
-	private static final long MI_RID = 2l; // Milton
-	private static final long KI_RID = 3l; // Kitchener
-	private static final long BR_RID = 5l; // Barrie
-	private static final long RH_RID = 6l; // Richmond Hill
-	private static final long ST_RID = 7l; // Stouffville
-	private static final long LE_RID = 9l; // Lakeshore East
+	private static final long LW_RID = 1L; // Lakeshore West
+	private static final long MI_RID = 2L; // Milton
+	private static final long KI_RID = 3L; // Kitchener
+	private static final long BR_RID = 5L; // Barrie
+	private static final long RH_RID = 6L; // Richmond Hill
+	private static final long ST_RID = 7L; // Stouffville
+	private static final long LE_RID = 9L; // Lakeshore East
 
 	@Override
 	public long getRouteId(GRoute gRoute) {
@@ -211,6 +211,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String APPLEBY = "Appleby";
 	private static final String AURORA = "Aurora";
 	private static final String BRADFORD = "Bradford";
+	private static final String BURLINGTON = "Burlington";
 	private static final String EXHIBITION = "Exhibition";
 	private static final String GEORGETOWN = "Georgetown";
 	private static final String GORMLEY = "Gormley";
@@ -239,6 +240,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			if (Arrays.asList( //
 					ALDERSHOT, //
 					APPLEBY, //
+					BURLINGTON, //
 					HAMILTON, //
 					OAKVILLE, //
 					WEST_HARBOUR //
@@ -299,9 +301,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
 				return true;
 			}
-		}
-		if (isGoodEnoughAccepted()) {
-			return super.mergeHeadsign(mTrip, mTripToMerge);
 		}
 		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		System.exit(-1);
