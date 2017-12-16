@@ -499,6 +499,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final int PA_SID = 100004;
 	private static final String SID_SCTH = "SCTH";
 	private static final int SCTH_SID = 100005;
+	private static final String SID_DW = "DW";
+	private static final int DW_SID = 100006;
 
 	@Override
 	public int getStopId(GStop gStop) {
@@ -641,8 +643,10 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return PA_SID;
 			} else if (SID_SCTH.equals(gStop.getStopId())) {
 				return SCTH_SID;
+			} else if (SID_DW.equals(gStop.getStopId())) {
+				return DW_SID;
 			} else {
-				System.out.printf("\nUnexpected stop ID %s.\n", gStop);
+				System.out.println("Unexpected stop ID for " + gStop + "! (" + gStop.getStopId() + ")");
 				System.exit(-1);
 				return -1;
 			}
