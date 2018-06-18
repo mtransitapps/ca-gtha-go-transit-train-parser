@@ -19,10 +19,9 @@ import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 
-// http://www.gotransit.com/publicroot/en/schedules/DeveloperResources.aspx
-// http://www.gotransit.com/timetables/fr/schedules/DeveloperResources.aspx
-// http://www.gotransit.com/publicroot/en/schedules/GTFSdownload.aspx
-// http://www.gotransit.com/publicroot/gtfs/google_transit.zip
+// https://www.gotransit.com/en/information-resources/software-developers
+// https://www.gotransit.com/fr/ressources-informatives/dveloppeurs-de-logiciel
+// https://www.gotransit.com/static_files/gotransit/assets/Files/GO_GTFS.zip
 public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -238,24 +237,25 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
 			if (Arrays.asList( //
-					ALDERSHOT, //
-					APPLEBY, //
-					BURLINGTON, //
-					HAMILTON, //
+					EXHIBITION, //
 					OAKVILLE, //
-					WEST_HARBOUR //
+					BURLINGTON, //
+					ALDERSHOT, //
+					WEST_HARBOUR, //
+					HAMILTON //
 					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId());
+				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId()); // NIAGARA_FALLS // WEST
 				return true;
 			} else if (Arrays.asList( //
-					ALDERSHOT, //
 					EXHIBITION, //
-					HAMILTON, //
-					NIAGARA_FALLS, //
 					OAKVILLE, //
-					WEST_HARBOUR //
+					BURLINGTON, //
+					ALDERSHOT, //
+					WEST_HARBOUR, //
+					HAMILTON, //
+					NIAGARA_FALLS //
 					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(NIAGARA_FALLS, mTrip.getHeadsignId());
+				mTrip.setHeadsignString(NIAGARA_FALLS, mTrip.getHeadsignId()); // WEST
 				return true;
 			}
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
