@@ -46,6 +46,11 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
+	public boolean excludingAll() {
+		return this.serviceIds != null && this.serviceIds.isEmpty();
+	}
+
+	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
@@ -207,7 +212,6 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
-	private static final String APPLEBY = "Appleby";
 	private static final String AURORA = "Aurora";
 	private static final String BRADFORD = "Bradford";
 	private static final String BURLINGTON = "Burlington";
