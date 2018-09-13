@@ -227,6 +227,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String PICKERING = "Pickering";
 	private static final String RICHMOND_HILL = "Richmond Hl";
 	private static final String KITCHENER = "Kitchener";
+	private static final String UNION = "Union";
 	private static final String UNIONVILLE = "Unionville";
 	private static final String WEST_HARBOUR = "West Harbour";
 	private static final String WHITBY = "Whitby";
@@ -303,6 +304,13 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 					PICKERING //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					EXHIBITION, //
+					UNION //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
 				return true;
 			}
 		}
