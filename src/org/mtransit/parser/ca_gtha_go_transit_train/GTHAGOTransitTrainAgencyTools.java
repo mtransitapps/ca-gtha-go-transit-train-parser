@@ -212,6 +212,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
+	private static final String APPLEBY = "Appleby";
 	private static final String AURORA = "Aurora";
 	private static final String BRADFORD = "Bradford";
 	private static final String BURLINGTON = "Burlington";
@@ -220,6 +221,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String GORMLEY = "Gormley";
 	private static final String HAMILTON = "Hamilton";
 	private static final String LINCOLNVILLE = "Lincolnville";
+	private static final String MIMICO = "Mimico";
 	private static final String MOUNT_PLEASANT = "Mt Pleasant";
 	private static final String NIAGARA_FALLS = "Niagara Falls";
 	private static final String OAKVILLE = "Oakville";
@@ -243,7 +245,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
 			if (Arrays.asList( //
 					EXHIBITION, //
+					MIMICO, //
 					OAKVILLE, //
+					APPLEBY, //
 					BURLINGTON, //
 					ALDERSHOT, //
 					WEST_HARBOUR, //
@@ -253,7 +257,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return true;
 			} else if (Arrays.asList( //
 					EXHIBITION, //
+					MIMICO, //
 					OAKVILLE, //
+					APPLEBY, //
 					BURLINGTON, //
 					ALDERSHOT, //
 					WEST_HARBOUR, //
