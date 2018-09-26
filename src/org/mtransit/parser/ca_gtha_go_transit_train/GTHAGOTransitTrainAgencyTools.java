@@ -244,6 +244,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		if (mTrip.getRouteId() == LW_RID) { // Lakeshore West
 			if (Arrays.asList( //
+					"1HA", //
+					"1WR", //
+					"1BU", //
 					EXHIBITION, //
 					MIMICO, //
 					OAKVILLE, //
@@ -256,6 +259,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(HAMILTON, mTrip.getHeadsignId()); // NIAGARA_FALLS // WEST
 				return true;
 			} else if (Arrays.asList( //
+					"1HA", //
+					"1WR", //
+					"1BU", //
 					EXHIBITION, //
 					MIMICO, //
 					OAKVILLE, //
@@ -271,6 +277,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
 			if (Arrays.asList( //
+					"1GE", //
 					GEORGETOWN, //
 					KITCHENER, //
 					MOUNT_PLEASANT //
@@ -280,6 +287,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
 			if (Arrays.asList( //
+					"1AU", //
 					ALLANDALE_WATERFRONT, //
 					AURORA, //
 					BRADFORD //
@@ -305,6 +313,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (Arrays.asList( //
+					"1OS", //
 					OSHAWA, //
 					WHITBY, //
 					PICKERING //
