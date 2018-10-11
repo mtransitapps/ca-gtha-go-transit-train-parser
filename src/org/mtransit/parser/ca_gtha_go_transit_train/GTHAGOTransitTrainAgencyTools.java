@@ -220,6 +220,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String GEORGETOWN = "Georgetown";
 	private static final String GORMLEY = "Gormley";
 	private static final String HAMILTON = "Hamilton";
+	private static final String KITCHENER = "Kitchener";
 	private static final String LINCOLNVILLE = "Lincolnville";
 	private static final String MIMICO = "Mimico";
 	private static final String MOUNT_PLEASANT = "Mt Pleasant";
@@ -228,7 +229,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String OSHAWA = "Oshawa";
 	private static final String PICKERING = "Pickering";
 	private static final String RICHMOND_HILL = "Richmond Hl";
-	private static final String KITCHENER = "Kitchener";
+	private static final String RUTHERFORD = "Rutherford";
 	private static final String UNION = "Union";
 	private static final String UNIONVILLE = "Unionville";
 	private static final String WEST_HARBOUR = "West Harbour";
@@ -288,9 +289,10 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == BR_RID) { // Barrie
 			if (Arrays.asList( //
 					"1AU", //
-					ALLANDALE_WATERFRONT, //
 					AURORA, //
-					BRADFORD //
+					BRADFORD, //
+					RUTHERFORD, //
+					ALLANDALE_WATERFRONT //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(ALLANDALE_WATERFRONT, mTrip.getHeadsignId()); // Barrie
 				return true;
