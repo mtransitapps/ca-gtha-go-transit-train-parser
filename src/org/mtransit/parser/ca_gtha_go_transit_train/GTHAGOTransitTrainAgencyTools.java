@@ -210,6 +210,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
+	private static final String AJAX = "Ajax";
 	private static final String ALDERSHOT = "Aldershot";
 	private static final String ALLANDALE_WATERFRONT = "Allandale Waterfront";
 	private static final String APPLEBY = "Appleby";
@@ -315,10 +316,10 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (Arrays.asList( //
-					"1OS", //
-					OSHAWA, //
+					PICKERING, //
+					AJAX, //
 					WHITBY, //
-					PICKERING //
+					OSHAWA //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(OSHAWA, mTrip.getHeadsignId());
 				return true;
