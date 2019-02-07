@@ -216,6 +216,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String APPLEBY = "Appleby";
 	private static final String AURORA = "Aurora";
 	private static final String BRADFORD = "Bradford";
+	private static final String BRAMALEA = "Bramalea";
 	private static final String BURLINGTON = "Burlington";
 	private static final String EXHIBITION = "Exhibition";
 	private static final String GEORGETOWN = "Georgetown";
@@ -280,9 +281,10 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
 			if (Arrays.asList( //
 					"1GE", //
+					BRAMALEA, //
+					MOUNT_PLEASANT, //
 					GEORGETOWN, //
-					KITCHENER, //
-					MOUNT_PLEASANT //
+					KITCHENER //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(KITCHENER, mTrip.getHeadsignId());
 				return true;
