@@ -225,6 +225,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String KITCHENER = "Kitchener";
 	private static final String LINCOLNVILLE = "Lincolnville";
 	private static final String MIMICO = "Mimico";
+	private static final String MOUNT_JOY = "Mt Joy";
 	private static final String MOUNT_PLEASANT = "Mt Pleasant";
 	private static final String NIAGARA_FALLS = "Niagara Falls";
 	private static final String OAKVILLE = "Oakville";
@@ -310,8 +311,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == ST_RID) { // Stouffville
 			if (Arrays.asList( //
-					LINCOLNVILLE, //
-					UNIONVILLE //
+					UNIONVILLE, //
+					MOUNT_JOY, //
+					LINCOLNVILLE //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(LINCOLNVILLE, mTrip.getHeadsignId());
 				return true;
