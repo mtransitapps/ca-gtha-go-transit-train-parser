@@ -221,6 +221,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String EXHIBITION = "Exhibition";
 	private static final String GEORGETOWN = "Georgetown";
 	private static final String GORMLEY = "Gormley";
+	private static final String GUILDWOOD = "Guildwood";
 	private static final String HAMILTON = "Hamilton";
 	private static final String KITCHENER = "Kitchener";
 	private static final String LINCOLNVILLE = "Lincolnville";
@@ -320,6 +321,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (Arrays.asList( //
+					GUILDWOOD, //
 					PICKERING, //
 					AJAX, //
 					WHITBY, //
