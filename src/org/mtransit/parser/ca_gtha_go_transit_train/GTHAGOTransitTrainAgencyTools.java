@@ -280,6 +280,13 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(NIAGARA_FALLS, mTrip.getHeadsignId()); // WEST
 				return true;
 			}
+			if (Arrays.asList( //
+					ALDERSHOT, //
+					UNION //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == KI_RID) { // Kitchener
 			if (Arrays.asList( //
 					"1GE", //
