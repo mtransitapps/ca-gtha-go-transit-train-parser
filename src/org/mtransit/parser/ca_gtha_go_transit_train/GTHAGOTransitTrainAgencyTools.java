@@ -281,6 +281,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 			if (Arrays.asList( //
+					"Long Branch", //
 					ALDERSHOT, //
 					UNION //
 					).containsAll(headsignsValues)) {
