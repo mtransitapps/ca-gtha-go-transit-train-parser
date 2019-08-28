@@ -292,6 +292,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			if (Arrays.asList( //
 					"1GE", //
 					BRAMALEA, //
+					"Guelph Central", //
 					MOUNT_PLEASANT, //
 					GEORGETOWN, //
 					KITCHENER //
