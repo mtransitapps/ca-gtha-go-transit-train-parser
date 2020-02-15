@@ -328,6 +328,14 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(LINCOLNVILLE, mTrip.getHeadsignId());
 				return true;
 			}
+			if (Arrays.asList( //
+					"Scarborough", //
+					MOUNT_JOY, //
+					UNION //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == LE_RID) { // Lakeshore East
 			if (Arrays.asList( //
 					GUILDWOOD, //
