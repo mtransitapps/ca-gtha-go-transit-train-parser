@@ -311,6 +311,15 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(ALLANDALE_WATERFRONT, mTrip.getHeadsignId()); // Barrie
 				return true;
 			}
+			if (Arrays.asList( //
+					ALLANDALE_WATERFRONT, //
+					AURORA, //
+					"Downsview Pk", //
+					UNION //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(UNION, mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == RH_RID) { // Richmond Hill
 			if (Arrays.asList( //
 					GORMLEY, //
