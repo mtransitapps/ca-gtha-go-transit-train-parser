@@ -1,6 +1,8 @@
 package org.mtransit.parser.ca_gtha_go_transit_train;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
@@ -23,7 +25,7 @@ import java.util.regex.Pattern;
 // https://www.gotransit.com/static_files/gotransit/assets/Files/GO_GTFS.zip
 public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
-	public static void main(String[] args) {
+	public static void main(@Nullable String[] args) {
 		if (args == null || args.length == 0) {
 			args = new String[3];
 			args[0] = "input/gtfs.zip";
@@ -33,10 +35,11 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		new GTHAGOTransitTrainAgencyTools().start(args);
 	}
 
+	@Nullable
 	private HashSet<String> serviceIds;
 
 	@Override
-	public void start(String[] args) {
+	public void start(@NotNull String[] args) {
 		MTLog.log("Generating GO Transit train data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
@@ -50,7 +53,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean excludeCalendar(GCalendar gCalendar) {
+	public boolean excludeCalendar(@NotNull GCalendar gCalendar) {
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
 		}
@@ -58,7 +61,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
+	public boolean excludeCalendarDate(@NotNull GCalendarDate gCalendarDates) {
 		if (this.serviceIds != null) {
 			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
 		}
@@ -66,13 +69,14 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean excludeTrip(GTrip gTrip) {
+	public boolean excludeTrip(@NotNull GTrip gTrip) {
 		if (this.serviceIds != null) {
 			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
 		return super.excludeTrip(gTrip);
 	}
 
+	@NotNull
 	@Override
 	public Integer getAgencyRouteType() {
 		return MAgency.ROUTE_TYPE_TRAIN;
@@ -87,7 +91,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final long LE_RID = 9L; // Lakeshore East
 
 	@Override
-	public long getRouteId(GRoute gRoute) {
+	public long getRouteId(@NotNull GRoute gRoute) {
 		if (ST_RSN.equals(gRoute.getRouteShortName())) {
 			return ST_RID;
 		} else if (RH_RSN.equals(gRoute.getRouteShortName())) {
@@ -125,8 +129,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		throw new MTLog.Fatal("Unexpected route ID for %s!", gRoute);
 	}
 
+	@NotNull
 	@Override
-	public String getRouteLongName(GRoute gRoute) {
+	public String getRouteLongName(@NotNull GRoute gRoute) {
 		String routeLongName = gRoute.getRouteLongName();
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
 		return CleanUtils.cleanLabel(routeLongName);
@@ -141,8 +146,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String GT_RSN = "GT"; // Kitchener
 	private static final String BR_RSN = "BR"; // Barrie
 
+	@Nullable
 	@Override
-	public String getRouteShortName(GRoute gRoute) {
+	public String getRouteShortName(@NotNull GRoute gRoute) {
 		if (StringUtils.isEmpty(gRoute.getRouteShortName())) {
 			//noinspection deprecation
 			final String routeId = gRoute.getRouteId();
@@ -169,6 +175,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final String AGENCY_COLOR = "387C2B"; // GREEN (AGENCY WEB SITE CSS)
 
+	@NotNull
 	@Override
 	public String getAgencyColor() {
 		return AGENCY_COLOR;
@@ -183,8 +190,9 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String COLOR_96092B = "96092B";
 	private static final String COLOR_EE3124 = "EE3124";
 
+	@Nullable
 	@Override
-	public String getRouteColor(GRoute gRoute) {
+	public String getRouteColor(@NotNull GRoute gRoute) {
 		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
 			int routeId = (int) getRouteId(gRoute);
 			switch (routeId) {
@@ -208,7 +216,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
+	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
 		mTrip.setHeadsignString(
 				cleanTripHeadsign(gTrip.getTripHeadsign()),
 				gTrip.getDirectionIdOrDefault()
@@ -221,31 +229,32 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
 		throw new MTLog.Fatal("%s: Using direction finder to merge %s and %s!", mTrip.getRouteId(), mTrip, mTripToMerge);
 	}
 
-	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}(\\s+)\\- )", Pattern.CASE_INSENSITIVE);
+	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}(\\s+)- )", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern FIRST_STATION_TIME_LAST_STATION_TIME = Pattern.compile("" //
 			+ "(" //
 			+ "([\\w\\s]*)" //
 			+ "[\\s]+" //
-			+ "([\\d]{2}\\:[\\d]{2})" //
+			+ "([\\d]{2}:[\\d]{2})" //
 			+ "[\\s]+" //
-			+ "\\-" //
+			+ "-" //
 			+ "[\\s]+" //
 			+ "([\\w\\s]*)" //
 			+ "[\\s]+" //
-			+ "([\\d]{2}\\:[\\d]{2})" //
+			+ "([\\d]{2}:[\\d]{2})" //
 			+ ")", Pattern.CASE_INSENSITIVE);
 	private static final String FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT = "$4";
 
-	private static final Pattern CENTER = Pattern.compile("((^|\\W){1}(center|centre|ctr)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern CENTER = Pattern.compile("((^|\\W)(center|centre|ctr)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String CENTER_REPLACEMENT = " ";
 
+	@NotNull
 	@Override
-	public String cleanTripHeadsign(String tripHeadsign) {
+	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
 		tripHeadsign = START_WITH_RSN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = FIRST_STATION_TIME_LAST_STATION_TIME.matcher(tripHeadsign).replaceAll(FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT);
 		tripHeadsign = GO.matcher(tripHeadsign).replaceAll(GO_REPLACEMENT);
@@ -255,20 +264,21 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
-	private static final Pattern GO = Pattern.compile("(^|\\W){1}(go)($|\\W){1}", Pattern.CASE_INSENSITIVE);
+	private static final Pattern GO = Pattern.compile("(^|\\W)(go)($|\\W)", Pattern.CASE_INSENSITIVE);
 	private static final String GO_REPLACEMENT = " ";
 
-	private static final Pattern VIA = Pattern.compile("(^|\\s){1}(via)($|\\s){1}", Pattern.CASE_INSENSITIVE);
+	private static final Pattern VIA = Pattern.compile("(^|\\s)(via)($|\\s)", Pattern.CASE_INSENSITIVE);
 	private static final String VIA_REPLACEMENT = " ";
 
-	private static final Pattern RAIL = Pattern.compile("(^|\\s){1}(rail)($|\\s){1}", Pattern.CASE_INSENSITIVE);
+	private static final Pattern RAIL = Pattern.compile("(^|\\s)(rail)($|\\s)", Pattern.CASE_INSENSITIVE);
 	private static final String RAIL_REPLACEMENT = " ";
 
-	private static final Pattern STATION = Pattern.compile("(^|\\s){1}(station)($|\\s){1}", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STATION = Pattern.compile("(^|\\s)(station)($|\\s)", Pattern.CASE_INSENSITIVE);
 	private static final String STATION_REPLACEMENT = " ";
 
+	@NotNull
 	@Override
-	public String cleanStopName(String gStopName) {
+	public String cleanStopName(@NotNull String gStopName) {
 		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = VIA.matcher(gStopName).replaceAll(VIA_REPLACEMENT);
 		gStopName = GO.matcher(gStopName).replaceAll(GO_REPLACEMENT);
@@ -421,7 +431,7 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final int DW_SID = 100006;
 
 	@Override
-	public int getStopId(GStop gStop) {
+	public int getStopId(@NotNull GStop gStop) {
 		//noinspection deprecation
 		final String stopId = gStop.getStopId();
 		if (!Utils.isDigitsOnly(stopId)) {
