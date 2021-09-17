@@ -1,6 +1,8 @@
 package org.mtransit.parser.ca_gtha_go_transit_train;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.mtransit.commons.Constants.SPACE_;
+import static org.mtransit.commons.StringUtils.EMPTY;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mtransit.commons.CharUtils;
@@ -11,6 +13,8 @@ import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.mt.data.MAgency;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 // https://www.gotransit.com/en/information-resources/software-developers
@@ -20,6 +24,12 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
 		new GTHAGOTransitTrainAgencyTools().start(args);
+	}
+
+	@Nullable
+	@Override
+	public List<Locale> getSupportedLanguages() {
+		return LANG_EN_FR;
 	}
 
 	@Override
@@ -39,6 +49,39 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return MAgency.ROUTE_TYPE_TRAIN;
 	}
 
+	@Override
+	public boolean defaultRouteIdEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean useRouteShortNameForRouteId() {
+		return true;
+	}
+
+	@Nullable
+	@Override
+	public Long convertRouteIdFromShortNameNotSupported(@NotNull String routeShortName) {
+		switch (routeShortName) {
+		case ST_RSN:
+			return ST_RID;
+		case RH_RSN:
+			return RH_RID;
+		case MI_RSN:
+			return MI_RID;
+		case LW_RSN:
+			return LW_RID;
+		case LE_RSN:
+			return LE_RID;
+		case KI_RSN:
+		case GT_RSN:
+			return KI_RID;
+		case BR_RSN:
+			return BR_RID;
+		}
+		return super.convertRouteIdFromShortNameNotSupported(routeShortName);
+	}
+
 	private static final long LW_RID = 1L; // Lakeshore West
 	private static final long MI_RID = 2L; // Milton
 	private static final long KI_RID = 3L; // Kitchener
@@ -48,42 +91,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final long LE_RID = 9L; // Lakeshore East
 
 	@Override
-	public long getRouteId(@NotNull GRoute gRoute) {
-		if (ST_RSN.equals(gRoute.getRouteShortName())) {
-			return ST_RID;
-		} else if (RH_RSN.equals(gRoute.getRouteShortName())) {
-			return RH_RID;
-		} else if (MI_RSN.equals(gRoute.getRouteShortName())) {
-			return MI_RID;
-		} else if (LW_RSN.equals(gRoute.getRouteShortName())) {
-			return LW_RID;
-		} else if (LE_RSN.equals(gRoute.getRouteShortName())) {
-			return LE_RID;
-		} else if (KI_RSN.equals(gRoute.getRouteShortName()) //
-				|| GT_RSN.equals(gRoute.getRouteShortName())) {
-			return KI_RID;
-		} else if (BR_RSN.equals(gRoute.getRouteShortName())) {
-			return BR_RID;
-		}
-		//noinspection deprecation
-		final String routeId = gRoute.getRouteId();
-		if (routeId.endsWith(ST_RSN)) {
-			return ST_RID;
-		} else if (routeId.endsWith(RH_RSN)) {
-			return RH_RID;
-		} else if (routeId.endsWith(MI_RSN)) {
-			return MI_RID;
-		} else if (routeId.endsWith(LW_RSN)) {
-			return LW_RID;
-		} else if (routeId.endsWith(LE_RSN)) {
-			return LE_RID;
-		} else if (routeId.endsWith(KI_RSN) //
-				|| routeId.endsWith(GT_RSN)) {
-			return KI_RID;
-		} else if (routeId.endsWith(BR_RSN)) {
-			return BR_RID;
-		}
-		throw new MTLog.Fatal("Unexpected route ID for %s!", gRoute);
+	public boolean defaultRouteLongNameEnabled() {
+		return true;
 	}
 
 	@NotNull
@@ -99,34 +108,12 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final String LW_RSN = "LW"; // Lakeshore West
 	private static final String LE_RSN = "LE"; // Lakeshore East
 	private static final String KI_RSN = "KI"; // Kitchener
-	private static final String GT_RSN = "GT"; // Kitchener
+	private static final String GT_RSN = "GT"; // Kitchener (2)
 	private static final String BR_RSN = "BR"; // Barrie
 
-	@Nullable
 	@Override
-	public String getRouteShortName(@NotNull GRoute gRoute) {
-		if (StringUtils.isEmpty(gRoute.getRouteShortName())) {
-			//noinspection deprecation
-			final String routeId = gRoute.getRouteId();
-			if (routeId.endsWith(ST_RSN)) {
-				return ST_RSN;
-			} else if (routeId.endsWith(RH_RSN)) {
-				return RH_RSN;
-			} else if (routeId.endsWith(MI_RSN)) {
-				return MI_RSN;
-			} else if (routeId.endsWith(LW_RSN)) {
-				return LW_RSN;
-			} else if (routeId.endsWith(LE_RSN)) {
-				return LE_RSN;
-			} else if (routeId.endsWith(KI_RSN) //
-					|| routeId.endsWith(GT_RSN)) {
-				return GT_RSN;
-			} else if (routeId.endsWith(BR_RSN)) {
-				return BR_RSN;
-			}
-			throw new MTLog.Fatal("Unexpected route short name for %s!", gRoute);
-		}
-		return super.getRouteShortName(gRoute);
+	public boolean defaultAgencyColorEnabled() {
+		return true;
 	}
 
 	private static final String AGENCY_COLOR = "387C2B"; // GREEN (AGENCY WEB SITE CSS)
@@ -137,38 +124,22 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 		return AGENCY_COLOR;
 	}
 
-	private static final String COLOR_BC6277 = "BC6277";
-	private static final String COLOR_F46F1A = "F46F1A";
-	private static final String COLOR_098137 = "098137";
-	private static final String COLOR_0B335E = "0B335E";
-	private static final String COLOR_0098C9 = "0098C9";
-	private static final String COLOR_794500 = "794500";
-	private static final String COLOR_96092B = "96092B";
-	private static final String COLOR_EE3124 = "EE3124";
-
 	@Nullable
 	@Override
-	public String getRouteColor(@NotNull GRoute gRoute) {
-		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
-			int routeId = (int) getRouteId(gRoute);
-			switch (routeId) {
-			// @formatter:off
-			case 1: return COLOR_96092B; // Lakeshore West
-			case 2: return COLOR_F46F1A; // Milton
-			case 3: return COLOR_098137; // Kitchener
-			case 5: return COLOR_0B335E; // Barrie
-			case 6: return COLOR_0098C9; // Richmond Hill
-			case 7: return COLOR_794500; // Stouffville
-			case 8: return COLOR_BC6277; // Niagara Falls
-			case 9: return COLOR_EE3124; // Lakeshore East
-			// @formatter:on
-			}
-			if (isGoodEnoughAccepted()) {
-				return null;
-			}
-			throw new MTLog.Fatal("Unexpected route color '%s'!", gRoute);
+	public String provideMissingRouteColor(@NotNull GRoute gRoute) {
+		switch (getRouteShortName(gRoute)) {
+		// @formatter:off
+		case LW_RSN: return "96092B"; // Lakeshore West
+		case MI_RSN: return "F46F1A"; // Milton
+		case KI_RSN: return "098137"; // Kitchener
+		case BR_RSN: return "0B335E"; // Barrie
+		case RH_RSN: return "0098C9"; // Richmond Hill
+		case ST_RSN: return "794500"; // Stouffville
+		// TODO case 8: return "BC6277"; // Niagara Falls
+		case LE_RSN: return "EE3124"; // Lakeshore East
+		// @formatter:on
 		}
-		return super.getRouteColor(gRoute);
+		return super.provideMissingRouteColor(gRoute);
 	}
 
 	@Override
@@ -192,41 +163,33 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 			+ ")", Pattern.CASE_INSENSITIVE);
 	private static final String FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT = "$4";
 
-	private static final Pattern CENTER = Pattern.compile("((^|\\W)(center|centre|ctr)(\\W|$))", Pattern.CASE_INSENSITIVE);
-	private static final String CENTER_REPLACEMENT = " ";
-
 	@NotNull
 	@Override
 	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
-		tripHeadsign = START_WITH_RSN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = START_WITH_RSN.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = FIRST_STATION_TIME_LAST_STATION_TIME.matcher(tripHeadsign).replaceAll(FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT);
-		tripHeadsign = GO.matcher(tripHeadsign).replaceAll(GO_REPLACEMENT);
-		tripHeadsign = CENTER.matcher(tripHeadsign).replaceAll(CENTER_REPLACEMENT);
-		tripHeadsign = STATION.matcher(tripHeadsign).replaceAll(STATION_REPLACEMENT);
+		tripHeadsign = GO.matcher(tripHeadsign).replaceAll(SPACE_);
+		tripHeadsign = STATION.matcher(tripHeadsign).replaceAll(SPACE_);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
 	private static final Pattern GO = Pattern.compile("(^|\\W)(go)($|\\W)", Pattern.CASE_INSENSITIVE);
-	private static final String GO_REPLACEMENT = " ";
 
 	private static final Pattern VIA = Pattern.compile("(^|\\s)(via)($|\\s)", Pattern.CASE_INSENSITIVE);
-	private static final String VIA_REPLACEMENT = " ";
 
 	private static final Pattern RAIL = Pattern.compile("(^|\\s)(rail)($|\\s)", Pattern.CASE_INSENSITIVE);
-	private static final String RAIL_REPLACEMENT = " ";
 
 	private static final Pattern STATION = Pattern.compile("(^|\\s)(station)($|\\s)", Pattern.CASE_INSENSITIVE);
-	private static final String STATION_REPLACEMENT = " ";
 
 	@NotNull
 	@Override
 	public String cleanStopName(@NotNull String gStopName) {
 		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
-		gStopName = VIA.matcher(gStopName).replaceAll(VIA_REPLACEMENT);
-		gStopName = GO.matcher(gStopName).replaceAll(GO_REPLACEMENT);
-		gStopName = RAIL.matcher(gStopName).replaceAll(RAIL_REPLACEMENT);
-		gStopName = STATION.matcher(gStopName).replaceAll(STATION_REPLACEMENT);
+		gStopName = VIA.matcher(gStopName).replaceAll(SPACE_);
+		gStopName = GO.matcher(gStopName).replaceAll(SPACE_);
+		gStopName = RAIL.matcher(gStopName).replaceAll(SPACE_);
+		gStopName = STATION.matcher(gStopName).replaceAll(SPACE_);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
