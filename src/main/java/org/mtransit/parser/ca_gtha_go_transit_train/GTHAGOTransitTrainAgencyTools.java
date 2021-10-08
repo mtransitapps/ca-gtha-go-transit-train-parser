@@ -337,6 +337,12 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	private static final int DW_SID = 100006;
 	private static final String SID_BM = "BM";
 	private static final int BM_SID = 100007;
+	private static final String SID_LN = "LN";
+	private static final int LN_SID = 100008;
+	private static final String SID_SM = "SM";
+	private static final int SM_SID = 100009;
+	private static final String SID_SF = "SF";
+	private static final int SF_SID = 100010;
 
 	@Override
 	public int getStopId(@NotNull GStop gStop) {
@@ -486,8 +492,14 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 				return SCTH_SID;
 			} else if (SID_DW.equals(stopId)) {
 				return DW_SID;
+			} else if (SID_LN.equals(stopId)) {
+				return LN_SID;
+			} else if (SID_SM.equals(stopId)) {
+				return SM_SID;
+			} else if (SID_SF.equals(stopId)) {
+				return SF_SID;
 			} else {
-				throw new MTLog.Fatal("Unexpected stop ID for " + gStop + "! (" + stopId + ")");
+				throw new MTLog.Fatal("Unexpected stop ID for " + gStop.toStringPlus(true) + "! (" + stopId + ")");
 			}
 		}
 		return super.getStopId(gStop);
