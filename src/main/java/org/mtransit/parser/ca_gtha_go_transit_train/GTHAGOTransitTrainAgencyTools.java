@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 // https://www.gotransit.com/en/information-resources/software-developers
 // https://www.gotransit.com/fr/ressources-informatives/dveloppeurs-de-logiciel
-// https://www.gotransit.com/static_files/gotransit/assets/Files/GO_GTFS.zip
 public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
@@ -57,6 +56,11 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean useRouteShortNameForRouteId() {
 		return true;
+	}
+
+	@Override
+	public boolean allowGTFSIdOverride() {
+		return true; // breaks GTFS-RT
 	}
 
 	@Nullable
@@ -149,17 +153,16 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern START_WITH_RSN = Pattern.compile("(^[A-Z]{2}(\\s+)- )", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern FIRST_STATION_TIME_LAST_STATION_TIME = Pattern.compile("" //
-			+ "(" //
+	private static final Pattern FIRST_STATION_TIME_LAST_STATION_TIME = Pattern.compile("(" //
 			+ "([\\w\\s]*)" //
-			+ "[\\s]+" //
-			+ "([\\d]{2}:[\\d]{2})" //
-			+ "[\\s]+" //
+			+ "\\s+" //
+			+ "(\\d{2}:\\d{2})" //
+			+ "\\s+" //
 			+ "-" //
-			+ "[\\s]+" //
+			+ "\\s+" //
 			+ "([\\w\\s]*)" //
-			+ "[\\s]+" //
-			+ "([\\d]{2}:[\\d]{2})" //
+			+ "\\s+" //
+			+ "(\\d{2}:\\d{2})" //
 			+ ")", Pattern.CASE_INSENSITIVE);
 	private static final String FIRST_STATION_TIME_LAST_STATION_TIME_REPLACEMENT = "$4";
 
