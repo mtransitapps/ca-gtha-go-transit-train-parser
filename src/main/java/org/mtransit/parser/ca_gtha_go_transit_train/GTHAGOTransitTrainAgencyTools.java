@@ -59,8 +59,8 @@ public class GTHAGOTransitTrainAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean allowGTFSIdOverride() {
-		return true; // breaks GTFS-RT
+	public @Nullable String getRouteIdCleanupRegex() {
+		return "^\\d+-";
 	}
 
 	@Nullable
